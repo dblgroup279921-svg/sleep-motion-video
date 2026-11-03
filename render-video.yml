@@ -14,14 +14,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # জিপ ফাইলটি আনজিপ করার জন্য এই নতুন ধাপটি যোগ করা হয়েছে
+      - name: Unzip Project Files
+        run: |
+          unzip sleep-video.zip
+          # যদি জিপ আনজিপ করার পর আরেকটি ফোল্ডার তৈরি হয়, তবে সব ফাইল রুটে নিয়ে আসার জন্য:
+          # mv sleep-video/* . 2>/dev/null || true 
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # লক ফাইল না থাকার এরর এড়াতে ক্যাশ অপশনটি সাময়িকভাবে বাদ দেওয়া হয়েছে
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Install Chrome (Required for Remotion)
         run: npx remotion browser ensure
